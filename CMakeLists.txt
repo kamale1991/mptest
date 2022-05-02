@@ -9,12 +9,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/bin)
 find_package(GTest REQUIRED)
 
 # OpenMP
-# find_package(OpenMP)
+find_package(OpenMP REQUIRED)
 #target_link_libraries(mptest PUBLIC OpenMP::OpenMP_CXX)
 
 # MPI
 find_package(MPI REQUIRED)
-#
+
 
 # add_subdirectoryでそれぞれのプロジェクトディレクトリを登録する
 #file(GLOB dir_list LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ./*)
@@ -32,11 +32,15 @@ add_subdirectory(FileIO)
 file(GLOB srcs_fileio "FileIO/src/*.cpp")
 add_subdirectory(MPtest)
 file(GLOB srcs_mptest "MPtest/src/*.cpp")
+add_subdirectory(OMPtest)
+file(GLOB srcs_omptest "OMPtest/src/*.cpp")
+add_subdirectory(MPI_OMPtest)
+file(GLOB srcs_mpi_omptest "MPI_OMPtest/src/*.cpp")
 
 ## PROJECT_NAMEと同じ名前の実行体にmain.cppをリンクする
 add_executable(${PROJECT_NAME} 
     ${srcs_fileio} 
-    ${srcs_mptest}
+    ${srcs_mptest}    
     main.cpp
     )
 target_link_libraries(${PROJECT_NAME} PUBLIC MPI::MPI_CXX)
